@@ -336,7 +336,7 @@ subsplit_update()
 
 	if [ -n "$BRANCH" ];
   then
-	  UPDATE_BRANCH=$BRANCH
+    UPDATE_BRANCH=$BRANCH
   fi
 
 	git fetch -q -t origin
