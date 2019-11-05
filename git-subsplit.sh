@@ -55,6 +55,7 @@ NO_TAGS=
 REBUILD_TAGS=
 DRY_RUN=
 VERBOSE=
+BRANCH=
 
 subsplit_main()
 {
@@ -72,6 +73,7 @@ subsplit_main()
 			-n) DRY_RUN="--dry-run" ;;
 			--dry-run) DRY_RUN="--dry-run" ;;
 			--rebuild-tags) REBUILD_TAGS=1 ;;
+			--branch) BRANCH="$1" ;;
 			--) break ;;
 			*) die "Unexpected option: $opt" ;;
 		esac
@@ -330,15 +332,22 @@ subsplit_update()
 
 	say "Updating subsplit from origin"
 
+	UPDATE_BRANCH="master"
+
+	if [ -n "$BRANCH" ];
+  then
+	  UPDATE_BRANCH=$BRANCH
+  fi
+
 	git fetch -q -t origin
-	git checkout master
-	git reset --hard origin/master
+	git checkout ${UPDATE_BRANCH}
+	git reset --hard origin/${UPDATE_BRANCH}
 
 	if [ -n "$VERBOSE" ];
 	then
 		echo "${DEBUG} git fetch -q -t origin"
-		echo "${DEBUG} git checkout master"
-		echo "${DEBUG} git reset --hard origin/master"
+		echo "${DEBUG} git checkout ${UPDATE_BRANCH}"
+		echo "${DEBUG} git reset --hard origin/${UPDATE_BRANCH}"
 	fi
 
 	popd >/dev/null
