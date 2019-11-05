@@ -26,6 +26,8 @@ tags=         only publish for listed tags instead of all tags
 no-tags       do not publish any tags
 update        fetch updates from repository before publishing
 rebuild-tags  rebuild all tags (as opposed to skipping tags that are already synced)
+  options for 'update'
+branch=        specify a branch for the update, otherwise master will be used
 "
 eval "$(echo "$OPTS_SPEC" | git rev-parse --parseopt -- "$@" || echo exit $?)"
 
@@ -73,7 +75,7 @@ subsplit_main()
 			-n) DRY_RUN="--dry-run" ;;
 			--dry-run) DRY_RUN="--dry-run" ;;
 			--rebuild-tags) REBUILD_TAGS=1 ;;
-			--branch) BRANCH="$1" ;;
+			--branch) BRANCH="$1"; shift ;;
 			--) break ;;
 			*) die "Unexpected option: $opt" ;;
 		esac
